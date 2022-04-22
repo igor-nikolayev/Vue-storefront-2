@@ -1,11 +1,12 @@
 <template>
   <div id="home">
-    <SfHero class="hero">
-      <SfHeroItem
+    <Hero class="hero">
+      <HeroItem
         v-for="(hero, i) in heroes"
         :key="i"
         :title="hero.title"
         :subtitle="hero.subtitle"
+        :description="hero.description"
         :button-text="hero.buttonText"
         :background="hero.background"
         :image="hero.image"
@@ -37,7 +38,10 @@
           />
         </SfButton>
       </template>
-    </SfHero>
+    </Hero>
+
+    <HomeAdvantagesList />
+
     <LazyHydrate when-visible>
       <SfBannerGrid
         :banner-grid="1"
@@ -92,7 +96,6 @@
 <script type="module">
 import {
   SfButton,
-  SfHero,
   SfBanner,
   SfCallToAction,
   SfBannerGrid,
@@ -108,10 +111,13 @@ import LazyHydrate from 'vue-lazy-hydration';
 import { useCache, CacheTagPrefix } from '@vue-storefront/cache';
 import { productGetters } from '~/getters';
 import { useProduct } from '~/composables';
+import { addBasePath } from '@vue-storefront/core';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import ProductsCarousel from '~/components/ProductsCarousel.vue';
 import SvgImage from '~/components/General/SvgImage.vue';
+import Hero from '~/components/Custom/Hero/Hero';
+import HomeAdvantagesList from '~/components/Custom/HomeAdvantages/HomeAdvantagesList';
 
 export default defineComponent({
   name: 'HomePage',
@@ -125,7 +131,8 @@ export default defineComponent({
     SfBanner,
     SfBannerGrid,
     SfCallToAction,
-    SfHero,
+    HomeAdvantagesList,
+    Hero,
   },
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   setup() {
@@ -136,45 +143,16 @@ export default defineComponent({
     const newProducts = ref([]);
     const heroes = ref([
       {
-        title: app.i18n.t('Colorful summer dresses are already in store'),
-        subtitle: app.i18n.t('SUMMER COLLECTION {year}', { year }),
-        buttonText: app.i18n.t('Learn more'),
+        title: '<span>Sale 30% </span> </br> Off everything',
+        subtitle: `spring / summer ${year}`,
+        description: 'Lorem ipsum dolor sit amet consectetuer adipiscing elit aenean commodo ligula eget dolor.',
+        buttonText: app.i18n.t('Shop now'),
         background: '#eceff1',
         image: {
-          mobile:
-            'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerB_328x224.jpg',
-          desktop:
-            'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerB_1240x400.jpg',
+          mobile: addBasePath('/homepage/hero-bg-mobile.jpg'),
+          desktop: addBasePath('/homepage/hero-bg.jpg'),
         },
         link: '/c/women/women-clothing-shirts',
-      },
-      {
-        title: app.i18n.t('Colorful summer dresses are already in store'),
-        subtitle: app.i18n.t('SUMMER COLLECTION {year}', { year }),
-        buttonText: app.i18n.t('Learn more'),
-        background: '#fce4ec',
-        image: {
-          mobile:
-            'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerH_328x224.jpg',
-          desktop:
-            'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerH_1240x400.jpg',
-        },
-        link: '/c/women/women-clothing-dresses',
-      },
-      {
-        title: app.i18n.t('Colorful summer dresses are already in store'),
-        subtitle: app.i18n.t('SUMMER COLLECTION {year}', { year }),
-        buttonText: app.i18n.t('Learn more'),
-        background: '#efebe9',
-        image: {
-          mobile:
-            'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerA_328x224.jpg',
-          desktop:
-            'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerA_1240x400.jpg',
-        },
-        link: '/c/women/women-shoes-sandals',
-        className:
-          'sf-hero-item--position-bg-top-left sf-hero-item--align-right',
       },
     ]);
     const banners = ref([
@@ -310,6 +288,10 @@ export default defineComponent({
     margin: var(--spacer-xl) auto var(--spacer-2xl);
   }
 
+  @include for-mobile {
+    min-height: 580px;
+  }
+
   &__arrow {
     --button-height: 2.75rem;
     --button-width: 2.75rem;
@@ -331,7 +313,7 @@ export default defineComponent({
       --hero-item-background-position: left;
       @include for-mobile {
         --hero-item-background-position: 30%;
-        --hero-item-wrapper-text-align: right;
+        --hero-item-v-slot-text-align: right;
         --hero-item-subtitle-width: 100%;
         --hero-item-title-width: 100%;
         --hero-item-wrapper-padding: var(--spacer-sm) var(--spacer-sm)

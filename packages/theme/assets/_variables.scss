@@ -1,0 +1,48 @@
+@import "~@storefront-ui/shared/styles/_helpers.scss";
+$dark-blue: #03133D;
+$blue: #26A9E0;
+$yellow: #FFDD15;
+$gray: #DEE7F1;
+$beige: #FFF9F1;
+$light-red: #F37A7A;
+
+:root {
+  // font-family
+  --font-family--primary: 'Montserrat', sans-serif;
+  --font-family--secondary: 'Montserrat', sans-serif;
+  // font-size
+  --font-size--xs: 0.75rem; //12px
+  --font-size--sm: 0.875rem; //14px
+  --font-size--base: 1rem; //16px
+  --font-size--lg: 1.125rem; //18px
+  //font-weight
+  --font-weight--light: 300;
+  --font-weight--normal: 400;
+  --font-weight--medium: 500;
+  --font-weight--semibold: 600;
+  --font-weight--bold: 700;
+  --font-weight--extrabold: 800;
+  // heading font-size
+  --h1-font-size: 1.5rem; //24px
+  --h2-font-size: 1.5rem; //24px
+  --h3-font-size: var(--font-size--lg); //18px
+  --h4-font-size: var(--font-size--lg); //18px
+  --h5-font-size: var(--font-size--base); //16px
+  --h6-font-size: var(--font-size--base); //16px
+
+  --c-body: var(--_c-light-secondary);
+  --c-text: #03133D;
+  --c-primary: #26A9E0;
+  --c-text-muted: var(--_c-gray-primary);
+  --c-text-disabled: var(--_c-gray-accent);
+  --c-dark-variant: #03133D;
+
+  @include for-desktop {
+    --h1-font-size: 70px; //42px
+    --h2-font-size: 50px; //36px
+    --h3-font-size: 40px; //26px
+    --h4-font-size: 25px; //20px
+    --h5-font-size: 18px; //16px
+    --h6-font-size: 16px; //14px
+  }
+}

@@ -82,5 +82,8 @@
     "node": ">=16.x.x",
     "yarn": "1.x.x||>=3.x.x"
   },
-  "packageManager": "yarn@1.22.15"
+  "packageManager": "yarn@1.22.15",
+  "dependencies": {
+    "@glidejs/glide": "^3.5.2"
+  }
 }

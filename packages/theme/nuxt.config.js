@@ -228,6 +228,7 @@ export default () => {
     image: {
       provider: config.get('imageProvider'),
     },
+    css: ['~assets/styles'],
   };
 
   if (config.get('imageProvider') === 'cloudinary') {
