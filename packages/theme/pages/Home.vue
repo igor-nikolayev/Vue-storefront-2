@@ -43,6 +43,15 @@
     <HomeAdvantagesList />
 
     <LazyHydrate when-visible>
+      <ProductsCarousel
+        :products="newProducts"
+        :loading="newProductsLoading"
+        :title="$t('New Arrival')"
+        :subtitle="$t('-10% off new collection')"
+      />
+    </LazyHydrate>
+
+    <LazyHydrate when-visible>
       <SfBannerGrid
         :banner-grid="1"
         class="banner-grid"
@@ -62,13 +71,6 @@
           />
         </template>
       </SfBannerGrid>
-    </LazyHydrate>
-    <LazyHydrate when-visible>
-      <ProductsCarousel
-        :products="newProducts"
-        :loading="newProductsLoading"
-        :title="$t('New Products')"
-      />
     </LazyHydrate>
 
     <LazyHydrate when-visible>
@@ -109,9 +111,9 @@ import {
 } from '@nuxtjs/composition-api';
 import LazyHydrate from 'vue-lazy-hydration';
 import { useCache, CacheTagPrefix } from '@vue-storefront/cache';
+import { addBasePath } from '@vue-storefront/core';
 import { productGetters } from '~/getters';
 import { useProduct } from '~/composables';
-import { addBasePath } from '@vue-storefront/core';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import ProductsCarousel from '~/components/ProductsCarousel.vue';
@@ -141,6 +143,7 @@ export default defineComponent({
     const year = new Date().getFullYear();
     const { getProductList, loading: newProductsLoading } = useProduct();
     const newProducts = ref([]);
+
     const heroes = ref([
       {
         title: '<span>Sale 30% </span> </br> Off everything',
@@ -220,7 +223,7 @@ export default defineComponent({
 
     onMounted(async () => {
       const productsData = await getProductList({
-        pageSize: 10,
+        pageSize: 100,
         currentPage: 1,
         sort: {
           position: 'ASC',
@@ -228,7 +231,7 @@ export default defineComponent({
       });
 
       addTags([{ prefix: CacheTagPrefix.View, value: 'home' }]);
-
+      console.log(productsData);
       newProducts.value = productGetters.getFiltered(productsData?.items, { master: true });
     });
 
@@ -270,7 +273,7 @@ export default defineComponent({
   box-sizing: border-box;
   padding: 0 var(--spacer-sm);
   @include for-desktop {
-    max-width: 1240px;
+    max-width: 1560px;
     padding: 0;
     margin: 0 auto;
   }

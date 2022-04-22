@@ -149,7 +149,7 @@ export default {
 
   &__content-wrapper {
     width: 100%;
-    max-width: 500px;
+    max-width: 550px;
 
     @include for-mobile {
       padding: 20px;
@@ -201,7 +201,7 @@ export default {
     width: 100%;
     max-width: 600px;
 
-    margin: 0 -20px;
+    margin: 0;
 
     &.desktop {
       display: none;
