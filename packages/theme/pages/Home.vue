@@ -11,6 +11,7 @@
         :background="hero.background"
         :image="hero.image"
         :class="hero.className"
+        :link="'/c/women.html'"
       />
       <template #prev="prevArrow">
         <SfButton
@@ -116,7 +117,7 @@ import { productGetters } from '~/getters';
 import { useProduct } from '~/composables';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
-import ProductsCarousel from '~/components/ProductsCarousel.vue';
+import ProductsCarousel from '~/components/Custom/HomeProduct/HomeProductList.vue';
 import SvgImage from '~/components/General/SvgImage.vue';
 import Hero from '~/components/Custom/Hero/Hero';
 import HomeAdvantagesList from '~/components/Custom/HomeAdvantages/HomeAdvantagesList';
@@ -223,10 +224,10 @@ export default defineComponent({
 
     onMounted(async () => {
       const productsData = await getProductList({
-        pageSize: 100,
+        pageSize: 8,
         currentPage: 1,
         sort: {
-          position: 'ASC',
+          position: 'DESC',
         },
       });
 
@@ -395,6 +396,16 @@ export default defineComponent({
     &__product {
       --product-card-add-button-transform: translate3d(0, 30%, 0);
     }
+  }
+}
+
+::v-deep .sf-section{
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 30px 0;
+
+  @include for-desktop {
+    padding: 60px 0;
   }
 }
 </style>

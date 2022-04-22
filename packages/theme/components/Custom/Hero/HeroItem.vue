@@ -150,6 +150,7 @@ export default {
   &__content-wrapper {
     width: 100%;
     max-width: 550px;
+    z-index: 1;
 
     @include for-mobile {
       padding: 20px;
