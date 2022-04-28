@@ -39,14 +39,24 @@
             :reviews-count="productGetters.getTotalReviews(product)"
             :is-in-wishlist="isInWishlist({ product })"
             :is-added-to-cart="isInCart({ product })"
-            :wishlist-icon="isAuthenticated ? 'heart' : ''"
-            :is-in-wishlist-icon="isAuthenticated ? 'heart_fill' : ''"
+            :show-add-to-cart-button="true"
+            :wishlist-icon="'heart'"
+            :is-in-wishlist-icon="'heart_fill'"
             @click:wishlist="addItemToWishlist(product)"
             @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
           />
         </div>
       </div>
     </SfLoader>
+
+    <SfButton
+      :link="link"
+      class="sf-button--pure button-blue product-list__button"
+
+      v-on="$listeners"
+    >
+      {{ linkText }}
+    </SfButton>
   </SfSection>
 </template>
 
@@ -54,6 +64,7 @@
 import {
   SfSection,
   SfLoader,
+  SfButton,
 } from '@storefront-ui/vue';
 
 import { computed, defineComponent } from '@nuxtjs/composition-api';
@@ -68,6 +79,7 @@ export default defineComponent({
     ProductCard,
     SfSection,
     SfLoader,
+    SfButton,
   },
   props: {
     title: {
@@ -84,6 +96,16 @@ export default defineComponent({
       type: Array,
       required: false,
       default: () => [],
+    },
+    link: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    linkText: {
+      type: String,
+      required: false,
+      default: '',
     },
     loading: Boolean,
   },
@@ -160,106 +182,27 @@ export default defineComponent({
 
   &__item {
     width: 50%;
+    position: relative;
 
     @include for-desktop {
       width: 25%;
     }
   }
-}
- ::v-deep .sf-product-card {
-   width: 100%;
-   max-width: 100%;
-   padding: 10px 10px 15px;
-   border: 1px solid #DEE7F1;
-   text-align: center;
 
-   @include for-desktop {
-     padding: 30px 35px 35px;
-   }
+  &__button {
+    width: 290px;
+    display: block;
+    margin: 25px auto 0;
 
-   &__title {
-     color: var(--c-text);
-     font-size: 12px;
-     line-height: 15px;
-     text-align: center;
-     margin: 10px 0;
+    &:hover {
+      color: #fff;
+    }
 
-     @include for-desktop {
-       font-size: 16px;
-       line-height: 20px;
-       margin: 30px 0 15px;
-     }
-   }
+    @include for-desktop {
+      width: 265px;
+      margin-top: 50px;
+    }
 
-   &__price {
-     display: flex;
-     justify-content: center;
-     margin: 0;
-   }
-
-   .sf-price__regular {
-     color: var(--c-text);
-     font-weight: var(--font-weight--semibold);
-     font-size: 12px;
-     line-height: 15px;
-     text-align: center;
-
-     @include for-desktop {
-       line-height: 20px;
-       font-size: 16px;
-     }
-   }
-   .sf-product-card__reviews {
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     margin-bottom: 5px;
-
-     @include for-desktop {
-       flex-direction: row;
-       justify-content: center;
-       margin-bottom: 20px;
-     }
-   }
-
-   .sf-product-card__reviews-count {
-     margin: 5px 0 0 ;
-     color: #929298;
-     font-size: 10px;
-     line-height: 12px;
-     font-weight: var(--font-weight--normal);
-
-     @include for-desktop {
-       margin-left: 15px;
-       font-size: 12px;
-       line-height: 15px;
-     }
-   }
-
-   .sf-icon:not(.sf-rating__icon--negative) {
-     fill: #FFD953;
-
-     path {
-       fill: #FFD953;
-     }
-   }
-
-   .sf-rating__icon--negative {
-     fill: #CDCDCD;
-     path {
-       fill: #CDCDCD;
-     }
-   }
-
-   .sf-icon {
-     height: 12px;
-     width: 12px;
-
-     @include for-desktop {
-       height: 15px;
-       width: 17px;
-     }
-   }
-
+  }
 }
 </style>

@@ -186,6 +186,7 @@ export default defineComponent({
       categoryTree.value = categoryGetters
         .getCategoryTree(categoryList.value?.[0])
         ?.items.filter((c) => c.count > 0);
+      console.log(categoryTree);
     });
 
     onMounted(() => {

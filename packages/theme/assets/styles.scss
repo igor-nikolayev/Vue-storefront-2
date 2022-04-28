@@ -1,7 +1,7 @@
 @import "fonts";
 @import 'variables';
 
-.button-blue {
+.button-blue, a.button-blue {
   background-color: $blue;
   color: #fff;
   height: 55px;

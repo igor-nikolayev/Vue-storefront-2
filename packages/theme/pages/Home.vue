@@ -11,34 +11,8 @@
         :background="hero.background"
         :image="hero.image"
         :class="hero.className"
-        :link="'/c/women.html'"
+        :link="localePath(getAgnosticCatLink({slug: '/women.html'}))"
       />
-      <template #prev="prevArrow">
-        <SfButton
-          aria-label="previous"
-          class="hero__arrow"
-          @click="prevArrow.go('prev')"
-        >
-          <SvgImage
-            icon="arrow_left"
-            width="24"
-            height="24"
-          />
-        </SfButton>
-      </template>
-      <template #next="nextArrow">
-        <SfButton
-          aria-label="next"
-          class="hero__arrow"
-          @click="nextArrow.go('next')"
-        >
-          <SvgImage
-            icon="arrow_right"
-            width="24"
-            height="24"
-          />
-        </SfButton>
-      </template>
     </Hero>
 
     <HomeAdvantagesList />
@@ -49,6 +23,8 @@
         :loading="newProductsLoading"
         :title="$t('New Arrival')"
         :subtitle="$t('-10% off new collection')"
+        :link="localePath(getAgnosticCatLink({slug: '/women.html'}))"
+        :link-text="'All Goods'"
       />
     </LazyHydrate>
 
@@ -98,11 +74,14 @@
 </template>
 <script type="module">
 import {
-  SfButton,
   SfBanner,
   SfCallToAction,
   SfBannerGrid,
 } from '@storefront-ui/vue';
+
+import {
+  useUiHelpers,
+} from '~/composables';
 
 import {
   defineComponent,
@@ -118,7 +97,6 @@ import { useProduct } from '~/composables';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import ProductsCarousel from '~/components/Custom/HomeProduct/HomeProductList.vue';
-import SvgImage from '~/components/General/SvgImage.vue';
 import Hero from '~/components/Custom/Hero/Hero';
 import HomeAdvantagesList from '~/components/Custom/HomeAdvantages/HomeAdvantagesList';
 
@@ -129,8 +107,6 @@ export default defineComponent({
     LazyHydrate,
     MobileStoreBanner,
     ProductsCarousel,
-    SvgImage,
-    SfButton,
     SfBanner,
     SfBannerGrid,
     SfCallToAction,
@@ -141,6 +117,7 @@ export default defineComponent({
   setup() {
     const { addTags } = useCache();
     const { app } = useContext();
+    const { getAgnosticCatLink } = useUiHelpers();
     const year = new Date().getFullYear();
     const { getProductList, loading: newProductsLoading } = useProduct();
     const newProducts = ref([]);
@@ -232,7 +209,6 @@ export default defineComponent({
       });
 
       addTags([{ prefix: CacheTagPrefix.View, value: 'home' }]);
-      console.log(productsData);
       newProducts.value = productGetters.getFiltered(productsData?.items, { master: true });
     });
 
@@ -243,6 +219,7 @@ export default defineComponent({
       newProducts,
       newProductsLoading,
       productGetters,
+      getAgnosticCatLink,
     };
   },
 });

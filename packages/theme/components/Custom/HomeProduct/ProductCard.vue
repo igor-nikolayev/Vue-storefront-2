@@ -110,77 +110,8 @@
           {{ badgeLabel }}
         </SfBadge>
       </slot>
-      <SfButton
-        :aria-label="`${ariaLabel} ${title}`"
-        :class="[wishlistIconClasses, { 'display-none': !wishlistIcon }]"
-        data-testid="product-wishlist-button"
-        @click="toggleIsInWishlist"
-      >
-        <slot
-          name="wishlist-icon"
-          v-bind="{ currentWishlistIcon }"
-        >
-          <SfIcon
-            v-if="currentWishlistIcon !== false"
-            :icon="currentWishlistIcon"
-            size="22px"
-            data-test="sf-wishlist-icon"
-          />
-        </slot>
-      </SfButton>
-      <div :class="{ 'display-none': !showAddToCartButton }">
-        <slot
-          name="add-to-cart"
-          v-bind="{
-            isAddedToCart,
-            showAddedToCartBadge,
-            isAddingToCart,
-            title,
-          }"
-        >
-          <SfCircleIcon
-            class="sf-product-card__add-button"
-            :class="{ 'has-colors': colors.length }"
-            :aria-label="`Add to Cart ${title}`"
-            :has-badge="showAddedToCartBadge"
-            :disabled="addToCartDisabled"
-            data-testid="product-add-icon"
-            @click="onAddToCart"
-          >
-            <span class="sf-product-card__add-button--icons">
-              <transition
-                v-if="!isAddingToCart && !isAddedToCart"
-                name="sf-pulse"
-                mode="out-in"
-              >
-                <slot name="add-to-cart-icon">
-                  <SfIcon
-                    key="add_to_cart"
-                    icon="add_to_cart"
-                    size="20px"
-                    color="white"
-                  />
-                </slot>
-              </transition>
-              <transition
-                v-else
-                name="sf-pulse"
-                mode="out-in"
-              >
-                <slot name="adding-to-cart-icon">
-                  <SfIcon
-                    key="added_to_cart"
-                    icon="added_to_cart"
-                    size="20px"
-                    color="white"
-                  />
-                </slot>
-              </transition>
-            </span>
-          </SfCircleIcon>
-        </slot>
-      </div>
     </div>
+
     <slot
       name="title"
       v-bind="{ title, link }"
@@ -233,6 +164,49 @@
         :special="specialPrice"
       />
     </slot>
+
+    <div class="product-card__actions">
+      <slot
+        name="add-to-cart"
+        v-bind="{
+          isAddedToCart,
+          showAddedToCartBadge,
+          isAddingToCart,
+          title,
+        }"
+      >
+        <SfCircleIcon
+          class="product-card__add-button button-blue"
+          :class="{ 'has-colors': colors.length }"
+          :aria-label="`Add to Cart ${title}`"
+          :has-badge="showAddedToCartBadge"
+          :disabled="addToCartDisabled"
+          data-testid="product-add-icon"
+          @click="onAddToCart"
+        >
+          <span>Buy Now</span>
+        </SfCircleIcon>
+      </slot>
+
+      <SfButton
+        :aria-label="`${ariaLabel} ${title}`"
+        data-testid="product-wishlist-button"
+        class="product-card__add-to-wish"
+        @click="toggleIsInWishlist"
+      >
+        <slot
+          name="wishlist-icon"
+          v-bind="{ currentWishlistIcon }"
+        >
+          <SfIcon
+            v-if="currentWishlistIcon !== false"
+            :icon="currentWishlistIcon"
+            size="25px"
+            data-test="sf-wishlist-icon"
+          />
+        </slot>
+      </SfButton>
+    </div>
   </div>
 </template>
 <script>
@@ -339,7 +313,7 @@ export default {
     },
     isAddedToCart: {
       type: Boolean,
-      deafult: false,
+      default: false,
     },
     addToCartDisabled: {
       type: Boolean,
@@ -414,4 +388,142 @@ export default {
 </script>
 <style lang="scss">
 @import "~@storefront-ui/shared/styles/components/organisms/SfProductCard.scss";
+
+.product-card {
+  &__actions {
+    display: none;
+    position: absolute;
+    width: 100%;
+    margin-top: 45px;
+
+    @include for-mobile {
+      display: none;
+    }
+  }
+
+  &__add-button {
+    border-radius: 0;
+    margin-right: 15px;
+    width: calc( 100% - 141px);
+    max-width: 250px;
+  }
+
+  &__add-to-wish {
+    background: transparent;
+    border: 1px solid var(--c-primary);
+    max-width: 65px;
+
+    .sf-icon {
+      --icon-color: var(--c-primary);
+    }
+  }
+}
+
+.sf-product-card {
+  width: 100%;
+  max-width: 100%;
+  padding: 10px 10px 15px;
+  border: 1px solid #DEE7F1;
+  text-align: center;
+
+  @include for-desktop {
+    padding: 30px 30px 35px;
+  }
+
+  &__title {
+    color: var(--c-text);
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+    margin: 10px 0;
+
+    @include for-desktop {
+      font-size: 16px;
+      line-height: 20px;
+      margin: 30px 0 15px;
+    }
+  }
+
+  &__price {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+  }
+
+  .sf-price__regular {
+    color: var(--c-text);
+    font-weight: var(--font-weight--semibold);
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+
+    @include for-desktop {
+      line-height: 20px;
+      font-size: 16px;
+    }
+  }
+  .sf-product-card__reviews {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 5px;
+
+    .sf-icon:not(.sf-rating__icon--negative) {
+      fill: #FFD953;
+
+      path {
+        fill: #FFD953;
+      }
+    }
+
+    .sf-rating__icon--negative {
+      fill: #CDCDCD;
+      path {
+        fill: #CDCDCD;
+      }
+    }
+
+    .sf-icon {
+      height: 12px;
+      width: 12px;
+
+      @include for-desktop {
+        height: 15px;
+        width: 17px;
+      }
+    }
+
+    @include for-desktop {
+      flex-direction: row;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+  }
+
+  .sf-product-card__reviews-count {
+    margin: 5px 0 0 ;
+    color: #929298;
+    font-size: 10px;
+    line-height: 12px;
+    font-weight: var(--font-weight--normal);
+
+    @include for-desktop {
+      margin-left: 15px;
+      font-size: 12px;
+      line-height: 15px;
+    }
+  }
+}
+
+.sf-product-card {
+  &:hover {
+    .product-card__actions {
+      display: flex;
+    }
+
+    padding-bottom: 140px;
+    position: absolute;
+    box-shadow: 10px 10px 30px rgba(174, 174, 192, 0.3), -10px -10px 30px rgba(255, 255, 255, 0.4);
+  }
+}
 </style>
