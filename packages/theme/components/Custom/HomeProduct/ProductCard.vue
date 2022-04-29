@@ -1,6 +1,6 @@
 <template>
   <div
-    class="sf-product-card"
+    class="sf-product-card product-card-home"
     :class="{ 'has-colors': colors.length }"
     data-testid="product-card"
   >
@@ -165,7 +165,7 @@
       />
     </slot>
 
-    <div class="product-card__actions">
+    <div class="product-card-home__actions">
       <slot
         name="add-to-cart"
         v-bind="{
@@ -176,7 +176,7 @@
         }"
       >
         <SfCircleIcon
-          class="product-card__add-button button-blue"
+          class="product-card-home__add-button button-blue"
           :class="{ 'has-colors': colors.length }"
           :aria-label="`Add to Cart ${title}`"
           :has-badge="showAddedToCartBadge"
@@ -191,7 +191,7 @@
       <SfButton
         :aria-label="`${ariaLabel} ${title}`"
         data-testid="product-wishlist-button"
-        class="product-card__add-to-wish"
+        class="product-card-home__add-to-wish"
         @click="toggleIsInWishlist"
       >
         <slot
@@ -389,7 +389,7 @@ export default {
 <style lang="scss">
 @import "~@storefront-ui/shared/styles/components/organisms/SfProductCard.scss";
 
-.product-card {
+.product-card-home {
   &__actions {
     display: none;
     position: absolute;
@@ -419,7 +419,7 @@ export default {
   }
 }
 
-.sf-product-card {
+.product-card-home {
   width: 100%;
   max-width: 100%;
   padding: 10px 10px 15px;
@@ -430,7 +430,7 @@ export default {
     padding: 30px 30px 35px;
   }
 
-  &__title {
+  .sf-product-card__title {
     color: var(--c-text);
     font-size: 12px;
     line-height: 15px;
@@ -444,7 +444,7 @@ export default {
     }
   }
 
-  &__price {
+  .sf-product-card__price {
     display: flex;
     justify-content: center;
     margin: 0;
@@ -515,9 +515,9 @@ export default {
   }
 }
 
-.sf-product-card {
+.product-card-home.sf-product-card {
   &:hover {
-    .product-card__actions {
+    .product-card-home__actions {
       display: flex;
     }
 

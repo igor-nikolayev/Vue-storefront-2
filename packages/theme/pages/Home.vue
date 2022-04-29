@@ -29,8 +29,8 @@
     </LazyHydrate>
 
     <LazyHydrate when-visible>
-      <SfBannerGrid
-        :banner-grid="1"
+      <GridBanner
+        :banner-grid="3"
         class="banner-grid"
       >
         <template
@@ -47,7 +47,7 @@
             :class="item.class"
           />
         </template>
-      </SfBannerGrid>
+      </GridBanner>
     </LazyHydrate>
 
     <LazyHydrate when-visible>
@@ -76,12 +76,7 @@
 import {
   SfBanner,
   SfCallToAction,
-  SfBannerGrid,
 } from '@storefront-ui/vue';
-
-import {
-  useUiHelpers,
-} from '~/composables';
 
 import {
   defineComponent,
@@ -92,13 +87,17 @@ import {
 import LazyHydrate from 'vue-lazy-hydration';
 import { useCache, CacheTagPrefix } from '@vue-storefront/cache';
 import { addBasePath } from '@vue-storefront/core';
+import {
+  useUiHelpers,
+  useProduct,
+} from '~/composables';
 import { productGetters } from '~/getters';
-import { useProduct } from '~/composables';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import ProductsCarousel from '~/components/Custom/HomeProduct/HomeProductList.vue';
 import Hero from '~/components/Custom/Hero/Hero';
 import HomeAdvantagesList from '~/components/Custom/HomeAdvantages/HomeAdvantagesList';
+import GridBanner from '~/components/Custom/GridBanner/GridBanner';
 
 export default defineComponent({
   name: 'HomePage',
@@ -108,7 +107,7 @@ export default defineComponent({
     MobileStoreBanner,
     ProductsCarousel,
     SfBanner,
-    SfBannerGrid,
+    GridBanner,
     SfCallToAction,
     HomeAdvantagesList,
     Hero,
@@ -139,63 +138,36 @@ export default defineComponent({
     const banners = ref([
       {
         slot: 'banner-A',
-        subtitle: app.i18n.t('Dresses'),
-        title: app.i18n.t('Cocktail & Party'),
-        description: app.i18n.t(
-          'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
-        ),
-        buttonText: app.i18n.t('Shop now'),
+        title: 'Up to 30% off in everything',
         image: {
           mobile:
             'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerB_328x343.jpg',
           desktop:
             'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerF_332x840.jpg',
         },
-        class: 'sf-banner--slim desktop-only',
-        link: '/c/women/women-clothing-skirts',
+        class: 'sf-banner--slim',
       },
       {
         slot: 'banner-B',
-        subtitle: app.i18n.t('Dresses'),
-        title: app.i18n.t('Linen Dresses'),
-        description: app.i18n.t(
-          'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
-        ),
-        buttonText: app.i18n.t('Shop now'),
+        title: 'many products for mens',
         image: {
           mobile:
-            'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerE_328x343.jpg',
+            'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerB_328x343.jpg',
           desktop:
-            'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerE_496x840.jpg',
+            'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerF_332x840.jpg',
         },
-        class: 'sf-banner--slim banner-central desktop-only',
-        link: '/c/women/women-clothing-dresses',
+        class: 'sf-banner--slim',
       },
       {
         slot: 'banner-C',
-        subtitle: app.i18n.t('T-Shirts'),
-        title: app.i18n.t('The Office Life'),
+        title: 'beautiful women dress collection',
         image: {
           mobile:
-            'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerC_328x343.jpg',
+            'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerB_328x343.jpg',
           desktop:
-            'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerC_332x400.jpg',
-        },
-        class: 'sf-banner--slim banner__tshirt',
-        link: '/c/women/women-clothing-shirts',
-      },
-      {
-        slot: 'banner-D',
-        subtitle: app.i18n.t('Summer Sandals'),
-        title: app.i18n.t('Eco Sandals'),
-        image: {
-          mobile:
-            'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerG_328x343.jpg',
-          desktop:
-            'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerG_332x400.jpg',
+            'https://cdn.shopify.com/s/files/1/0407/1902/4288/files/bannerF_332x840.jpg',
         },
         class: 'sf-banner--slim',
-        link: '/c/women/women-shoes-sandals',
       },
     ]);
 
